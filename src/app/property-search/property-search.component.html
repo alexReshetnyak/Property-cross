@@ -1,0 +1,20 @@
+<div class='container'>
+  <div class="row">
+      <h1>PropertyCross</h1>
+      <button type="button" class="btn btn-default">Favorites</button>
+  </div>
+  <hr>
+  <p>Use the form below to search for houses to buy. You can search by place-name, 
+    postcode, or click 'My location', to search in your current location!</p>
+
+  <input type="text"
+         class="form-control"
+         [(ngModel)] = 'searchText' 
+         placeholder="Search">
+  <br>
+  {{searchText}}
+  <button type="button" 
+          class="btn btn-default"
+          (click)='startNewSearch(searchText)'>Go</button>
+  <button type="button" class="btn btn-default">My Location</button>
+</div>
