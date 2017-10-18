@@ -1,4 +1,4 @@
-import { ApiService } from './../services/api.service';
+import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,15 +10,23 @@ import { Router } from '@angular/router';
 export class PropertySearchComponent implements OnInit {
 
   searchText: string = "";
+  lastSearchParams;
 
-  constructor(public userService: ApiService, private router: Router) { }
+  constructor(public userService: UserService, private router: Router) { }
 
   ngOnInit() {
+    this.getLastSearchParams();
   }
 
   startNewSearch(text){
-    console.log(text);
     this.router.navigate(['/searchresults', {'text': text}]);
   }
 
+  startSearchUsingLocation(){
+    this.router.navigate(['/searchresults', {'text': 'location'}]);
+  }
+
+  getLastSearchParams(){
+    this.lastSearchParams = this.userService.getDataFromStorage('lastSearchProperties');
+  }
 }

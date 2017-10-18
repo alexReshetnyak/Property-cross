@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="row property-listing-header">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8 text-center">
+        <h1>Property details</h1>
+    </div>
+    <div class="col-xs-2">
+        <a (click)="saveFavorite()" class="star-button">
+            <img width="30px" [src]="favorite? 'http://iconshow.me/media/images/Mixed/small-n-flat-icon/png2/256/-star.png' : 'https://images.vexels.com/media/users/3/134202/isolated/lists/491b2b49be09ae0f7c98a2181c62b8cc-star-stroke-icon-07.png'">
+        </a>
+    </div> 
+  </div>
+  <hr>
+  <div class="text-center">
+      <div class="col-lg-6 col-xs-12">
+          <img width="500px" [src]="house.img_url" [alt]="house.title">
+      </div>
+      <div class="col-lg-6 col-xs-12 text-left property-transcription-wrap">
+        <div class="property-transcription">
+          <h1>Price: {{house.price_formatted}}</h1>
+          <p>{{house.title}}</p>
+          <div *ngIf="+house.bedroom_number > 0">Bedrooms: {{house.bedroom_number}}</div>
+          <div *ngIf="+house.bathroom_number > 0">Bathrooms: {{house.bathroom_number}}</div> 
+          <div>{{house.summary}}</div>
+        </div>
+      </div>
+  </div>
+</div>

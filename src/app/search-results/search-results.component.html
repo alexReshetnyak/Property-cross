@@ -1,9 +1,36 @@
 <div class="container">
-  <a routerLink= '/propertysearch'>
-    <button class="btn btn-default">Back</button>
-  </a>
-  <h1>Search Results</h1>
-  <p>
-    search-results works!
-  </p>
+  <div class="row search-result-header">
+    <div class="col-xs-2">
+        <a routerLink= '/propertysearch'>
+          <button class="btn btn-default">Back</button>
+        </a>
+    </div>
+    <div class="col-xs-8 text-center">
+        <h1>{{title}}</h1>
+    </div>
+    <div class="col-xs-2"></div>
+  </div>
+  
+  <hr>
+
+  <div class="col-xs-12 text-center number-of-property" *ngIf="houses.length > 0">
+     {{houses.length}} of {{numberHouses}}
+  </div>
+  <div class="col-md-6 col-xs-12 text-center" *ngFor="let house of houses" (click)='openPropertyPage(house)'>
+    <div class="property-wrap">
+        <img width="400px" [src]="house.img_url">
+        <h1>{{house.price_formatted}}</h1>
+        <p>{{house.title}}</p>
+    </div>
+  </div>
+  <div class="loading text-center" *ngIf="!resultsReady">
+    <img width="50px" src="https://media.tenor.com/images/d6cd5151c04765d1992edfde14483068/tenor.gif">
+  </div>
+  <div *ngIf="noResults" class="text-center col-xs-12 no-results">
+     <h4>No Results...</h4> 
+  </div>
+  <div class="text-center button-more-wrap col-xs-12">
+    <button *ngIf="houses.length > 0" class="btn btn-default" (click)="getMoreProperty()">Get more</button>
+  </div>
+  <hr>
 </div>

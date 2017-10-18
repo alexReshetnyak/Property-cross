@@ -1,0 +1,12 @@
+.property-listing-header{
+    line-height: 80px;
+}
+
+.star-button{
+    cursor: pointer;
+}
+
+.property-transcription{
+    width: 500px;
+    margin: auto;
+}

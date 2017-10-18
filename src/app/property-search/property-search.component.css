@@ -1,0 +1,18 @@
+.property-search-header{
+    line-height: 80px;
+}
+.button-favorite-wrap{
+    text-align: right;
+}
+
+.recent-searches-wrap{
+    margin-top: 40px;
+}
+.recent-searches-wrap span{
+    color: grey;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+.recent-searches-wrap .search-param-text{
+    color: grey;
+}

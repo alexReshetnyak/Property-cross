@@ -1,7 +1,14 @@
 <div class='container'>
-  <div class="row">
-      <h1>PropertyCross</h1>
-      <button type="button" class="btn btn-default">Favorites</button>
+  <div class="row text-center property-search-header">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8" >
+          <h1>PropertyCross</h1>
+      </div>
+      <div class="col-xs-2 button-favorite-wrap">
+          <a [routerLink]="['/searchresults', {'text': 'favorite'}]">
+            <button type="button" class="btn btn-default">Favorites</button>
+          </a>
+      </div>
   </div>
   <hr>
   <p>Use the form below to search for houses to buy. You can search by place-name, 
@@ -9,12 +16,35 @@
 
   <input type="text"
          class="form-control"
-         [(ngModel)] = 'searchText' 
+         [(ngModel)] = "searchText"
+         required
+         name = 'searchPropertyInput'
+         #searchPropertyInput = 'ngModel'
+         (keyup.enter) =  "startNewSearch(searchText)"
          placeholder="Search">
   <br>
-  {{searchText}}
   <button type="button" 
           class="btn btn-default"
+          [disabled] = '!searchPropertyInput.valid'
           (click)='startNewSearch(searchText)'>Go</button>
-  <button type="button" class="btn btn-default">My Location</button>
+  <button type="button" 
+          class="btn btn-default"
+          (click)="startSearchUsingLocation()">My Location</button>
+
+  <div *ngIf="lastSearchParams" class="recent-searches-wrap">
+    <span>Recent Searches</span>
+      <div *ngFor="let param of lastSearchParams">
+          <div class="row">
+            <a [routerLink]="['/searchresults', {'text': param.searchText}]">
+            
+                <div class="col-xs-3 search-param-text">
+                    {{param.searchText}}
+                </div>
+                <div class="col-xs-3">
+                    ({{param.numberResults}})
+                </div>
+            </a>
+          </div>
+      </div>
+  </div>
 </div>
