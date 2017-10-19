@@ -11,7 +11,6 @@ import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
 export class PropertyListingComponent implements OnInit {
 
   house: House;
-  favorite: boolean = false;
   
   constructor(public userService: UserService,
               private activatedRoute: ActivatedRoute,
@@ -22,21 +21,14 @@ export class PropertyListingComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       let id = params['id'];
       this.house = this.userService.getPropertyFromSrorage(id);
-      if (this.house.favorite){
-        this.favorite = this.house.favorite;
-      }else{
-        this.favorite = false;
-      }
     });
   }
 
-  saveFavorite(){
-    if (!this.favorite){
-      this.favorite = true;
+  switchFavorite(){
+    if (!this.house.favorite){
       this.house.favorite = true;
       this.userService.saveHouseInStorage(this.house);
     }else{
-      this.favorite = false;
       this.house.favorite = false;
       this.userService.saveHouseInStorage(this.house);
     }

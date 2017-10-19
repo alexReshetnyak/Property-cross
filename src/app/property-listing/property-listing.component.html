@@ -5,8 +5,8 @@
         <h1>Property details</h1>
     </div>
     <div class="col-xs-2">
-        <a (click)="saveFavorite()" class="star-button">
-            <img width="30px" [src]="favorite? 'http://iconshow.me/media/images/Mixed/small-n-flat-icon/png2/256/-star.png' : 'https://images.vexels.com/media/users/3/134202/isolated/lists/491b2b49be09ae0f7c98a2181c62b8cc-star-stroke-icon-07.png'">
+        <a (click)="switchFavorite()" class="star-button">
+            <img width="30px" [src]="house.favorite? 'http://iconshow.me/media/images/Mixed/small-n-flat-icon/png2/256/-star.png' : 'https://images.vexels.com/media/users/3/134202/isolated/lists/491b2b49be09ae0f7c98a2181c62b8cc-star-stroke-icon-07.png'">
         </a>
     </div> 
   </div>

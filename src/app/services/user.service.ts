@@ -15,7 +15,7 @@ export class UserService {
     }
     if (properties){
       let newElement = true;
-      for (var i = 0; i < properties.length; i++) {
+      for (let i = 0; i < properties.length; i++) {
         if (properties[i].id == house.id) {
           properties[i] = house;
           newElement = false;
@@ -32,14 +32,14 @@ export class UserService {
   }
 
 
-  saveSearchResult(text, numberHouses, page){
+  saveSearchResult( searchParamsObj, page ){
+    const maxCountSearchResunts = 10;
     if (page === 1){
       let properties = this.getDataFromStorage('lastSearchProperties');
-      let searchParamsObj = {'searchText': text, 'numberResults': numberHouses};
       let propertiesJson = "";
       if (properties){
-        if (properties.length > 10) {
-          properties.length = 10;
+        if (properties.length > maxCountSearchResunts) {
+          properties.length = maxCountSearchResunts;
         }
         properties.unshift(searchParamsObj);
       }else{
@@ -57,17 +57,19 @@ export class UserService {
 
   getPropertyFromSrorage(id){
     let properties = this.getDataFromStorage('properties');
-    for (var i = 0; i < properties.length; i++){
+    let property;
+    for (let i = 0; i < properties.length; i++){
       if (properties[i].id === id){
-        return properties[i];
+        property = properties[i];
+        break;
       }
     }
+    return property;
   }
 
   getFavoriteDataFromStorage(){
     let properties = this.getDataFromStorage('properties');
-    let favorite = properties.filter(prop => prop.favorite);
-    return favorite;
+    return properties.filter(property => property.favorite);
   }
 
   getDataFromStorage(key){
@@ -82,7 +84,8 @@ export class UserService {
   makeId(){
     let dateNow = new Date();
     let time = dateNow.getTime();
-    let id = time + "" + Math.round(Math.random()*1000);
+    let random = Math.round(Math.random()*1000);
+    let id = `${time}${random}`;
     return id;
   }
 }

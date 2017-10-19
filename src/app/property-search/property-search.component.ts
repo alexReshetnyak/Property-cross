@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 export class PropertySearchComponent implements OnInit {
 
   searchText: string = "";
-  lastSearchParams;
+  lastSearchParams:Array<{searchText, numberResults}>;
 
   constructor(public userService: UserService, private router: Router) { }
 
@@ -19,11 +19,11 @@ export class PropertySearchComponent implements OnInit {
   }
 
   startNewSearch(text){
-    this.router.navigate(['/searchresults', {'text': text}]);
+    this.router.navigate(['/searchresults', {text}]);
   }
 
   startSearchUsingLocation(){
-    this.router.navigate(['/searchresults', {'text': 'location'}]);
+    this.router.navigate(['/searchresults', {text: 'location'}]);
   }
 
   getLastSearchParams(){

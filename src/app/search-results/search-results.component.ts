@@ -29,33 +29,29 @@ export class SearchResultsComponent implements OnInit {
   ngOnInit(){
     this.activatedRoute.params.subscribe(params => {
       this.text = params['text'];
-      if (this.text === 'favorite'){
-        this.getFavoriteProperties();
-        this.title = 'Favorite Properties';
-      }else if(this.text === 'location'){
-        this.startSearchUsingLocation();
-        this.title = 'Search Results';
-      }else{
-        this.startSearch(this.text, 1);
-        this.title = 'Search Results';
-      }
+      this.startSearch();
     });
   }
 
-  startSearch(text, page){
+  startSearch(){
+    if (this.text === 'favorite'){
+      this.getFavoriteProperties();
+      this.title = 'Favorite Properties';
+    }else if(this.text === 'location'){
+      this.startSearchUsingLocation();
+      this.title = 'Search Results';
+    }else{
+      this.startSearchUsingText(this.text, 1);
+      this.title = 'Search Results';
+    }
+  }
+
+  startSearchUsingText(text, page){
     this.resultsReady = false;
     this.apiService.getProperties(text, page)
       .subscribe(res => {
-        this.resultsReady = true;
-        this.numberHouses = res.total_results;
-
-        let propertiesFromStorage = this.userService.getDataFromStorage("properties");
-        res.listings = res.listings.map(res => this.apiService.toHouse(res, propertiesFromStorage));
-        this.houses = [...this.houses, ...res.listings];
-        this.userService.saveSearchResult(text, this.numberHouses, page);
-        if (this.houses.length === 0) {
-          this.noResults = true;
-        }
+        this.processResponse(res);
+        this.userService.saveSearchResult({text, numberResults: this.numberHouses}, page);
       }),
       err => {
         this.errorMessage = err;
@@ -67,15 +63,7 @@ export class SearchResultsComponent implements OnInit {
     this.resultsReady = false;
     this.apiService.getPropertiesUsingLocation(this.currentPage)
       .subscribe(res => {
-        this.resultsReady = true;
-        this.numberHouses = res.total_results;
-
-        let propertiesFromStorage = this.userService.getDataFromStorage("properties");
-        res.listings = res.listings.map(res => this.apiService.toHouse(res, propertiesFromStorage));
-        this.houses = [...this.houses, ...res.listings];
-        if (this.houses.length === 0) {
-          this.noResults = true;
-        }
+        this.processResponse(res);
       }),
       err => {
         this.errorMessage = err;
@@ -93,6 +81,18 @@ export class SearchResultsComponent implements OnInit {
     }
   }
 
+  processResponse(res) {
+    this.resultsReady = true;
+    this.numberHouses = res.total_results;
+
+    let propertiesFromStorage = this.userService.getDataFromStorage("properties");
+    res.listings = res.listings.map(res => this.apiService.toHouse(res, propertiesFromStorage));
+    this.houses = [...this.houses, ...res.listings];
+    if (this.houses.length === 0) {
+      this.noResults = true;
+    }
+  }
+
   openPropertyPage(house){
     if (house.id === ""){
       house.id = this.userService.savePropertyAndGetId(house);
@@ -102,6 +102,6 @@ export class SearchResultsComponent implements OnInit {
 
   getMoreProperty(){
     this.currentPage++;
-    this.startSearch(this.text, this.currentPage);
+    this.startSearchUsingText(this.text, this.currentPage);
   }
 }

@@ -26,30 +26,29 @@ export class ApiService {
   }
 
   getCurrentPossition(){
-    var self = this;
-    navigator.geolocation.getCurrentPosition(function(position){
-            self.currentPosition.lat = position.coords.latitude;
-            self.currentPosition.lng = position.coords.longitude;
+    navigator.geolocation.getCurrentPosition(position => {
+            this.currentPosition.lat = position.coords.latitude;
+            this.currentPosition.lng = position.coords.longitude;
     });
   }
 
-  toHouse(res, propertiesFromStorage): House {
+  toHouse(property, propertiesFromStorage): House {
     
     propertiesFromStorage.forEach(element => {
-      if (element.title === res.title){
-        res = element;
+      if (element.title === property.title){
+        property = element;
       }
     });
 
     return {
-      img_url: res.img_url,
-      price_formatted: res.price_formatted,
-      title: res.title,
-      bedroom_number: res.bedroom_number,
-      bathroom_number: res.bathroom_number,
-      summary: res.summary,
-      favorite: res.favorite || false,
-      id: res.id || "",
+      img_url: property.img_url,
+      price_formatted: property.price_formatted,
+      title: property.title,
+      bedroom_number: property.bedroom_number,
+      bathroom_number: property.bathroom_number,
+      summary: property.summary,
+      favorite: property.favorite || false,
+      id: property.id || "",
     };
   }
 }
