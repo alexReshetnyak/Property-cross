@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, Headers, URLSearchParams, JsonpModule, Jsonp } from '@angular/http';
+import { Http, Response, JsonpModule, Jsonp } from '@angular/http';
 import { House } from '../models/house';
 import 'rxjs/add/operator/map';
 
@@ -12,14 +12,14 @@ export class ApiService {
     //this.getCurrentPossition();
   }
 
-  getProperty(text, page){
+  getProperties(text, page){
     let apiURL = `${this.searchUrl}&page=${page}&place_name=${text}`;
     return this.jsonp.request(apiURL)
               .map(res => res.json().response);
               
   }
 
-  getPropertyUsingLocation(page){
+  getPropertiesUsingLocation(page){
     let apiURL = `${this.searchUrl}&page=1&centre_point=${this.currentPosition.lat},${this.currentPosition.lng}`;
     return this.jsonp.request(apiURL)
               .map(res => res.json().response);
@@ -33,10 +33,10 @@ export class ApiService {
     });
   }
 
-  toHouse(res, favoriteProperties): House {
+  toHouse(res, propertiesFromStorage): House {
     
-    favoriteProperties.forEach(element => {
-      if (element.title === res.title) {
+    propertiesFromStorage.forEach(element => {
+      if (element.title === res.title){
         res = element;
       }
     });
@@ -49,7 +49,7 @@ export class ApiService {
       bathroom_number: res.bathroom_number,
       summary: res.summary,
       favorite: res.favorite || false,
-      id: "",
+      id: res.id || "",
     };
   }
 }

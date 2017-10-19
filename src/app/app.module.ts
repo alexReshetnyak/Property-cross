@@ -12,7 +12,6 @@ import { UserService } from './services/user.service';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { PropertyListingComponent } from './property-listing/property-listing.component';
 
-import { PropertyGuard } from './guards/property-guard.service';
 
 @NgModule({
   declarations: [
@@ -29,8 +28,7 @@ import { PropertyGuard } from './guards/property-guard.service';
     JsonpModule,
   ],
   providers: [ApiService,
-              UserService,
-              PropertyGuard],
+              UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

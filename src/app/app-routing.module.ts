@@ -7,8 +7,6 @@ import { PropertySearchComponent } from './property-search/property-search.compo
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { PropertyListingComponent } from './property-listing/property-listing.component';
 
-import { PropertyGuard } from './guards/property-guard.service';
-
 export const routes: Routes = [
   {
     path: '',
@@ -24,10 +22,13 @@ export const routes: Routes = [
     component: SearchResultsComponent
   },
   {
-    path: 'propertylisting',
+    path: 'propertylisting/:id',
     component: PropertyListingComponent,
-    canActivate: [PropertyGuard]
   },
+  {
+    path: '**',
+    component: PropertySearchComponent
+  }
 ];
 
 

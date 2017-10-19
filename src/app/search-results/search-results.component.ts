@@ -3,7 +3,6 @@ import { UserService } from '../services/user.service';
 import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { House } from '../models/house';
-//import 'rxjs/add/operator/map';
 
 @Component({
   selector: 'app-search-results',
@@ -45,12 +44,13 @@ export class SearchResultsComponent implements OnInit {
 
   startSearch(text, page){
     this.resultsReady = false;
-    this.apiService.getProperty(text, page)
+    this.apiService.getProperties(text, page)
       .subscribe(res => {
-        let favoriteP = this.userService.getDataFromStorage("favoriteProperties");
         this.resultsReady = true;
         this.numberHouses = res.total_results;
-        res.listings = res.listings.map(res => this.apiService.toHouse(res, favoriteP));
+
+        let propertiesFromStorage = this.userService.getDataFromStorage("properties");
+        res.listings = res.listings.map(res => this.apiService.toHouse(res, propertiesFromStorage));
         this.houses = [...this.houses, ...res.listings];
         this.userService.saveSearchResult(text, this.numberHouses, page);
         if (this.houses.length === 0) {
@@ -65,12 +65,13 @@ export class SearchResultsComponent implements OnInit {
 
   startSearchUsingLocation(){
     this.resultsReady = false;
-    this.apiService.getPropertyUsingLocation(this.currentPage)
+    this.apiService.getPropertiesUsingLocation(this.currentPage)
       .subscribe(res => {
-        let favoriteP = this.userService.getDataFromStorage("favoriteProperties");
         this.resultsReady = true;
         this.numberHouses = res.total_results;
-        res.listings = res.listings.map(res => this.apiService.toHouse(res, favoriteP));
+
+        let propertiesFromStorage = this.userService.getDataFromStorage("properties");
+        res.listings = res.listings.map(res => this.apiService.toHouse(res, propertiesFromStorage));
         this.houses = [...this.houses, ...res.listings];
         if (this.houses.length === 0) {
           this.noResults = true;
@@ -84,16 +85,19 @@ export class SearchResultsComponent implements OnInit {
 
   getFavoriteProperties(){
     this.resultsReady = true;
-    this.houses = this.userService.getDataFromStorage('favoriteProperties');
+    this.houses = this.userService.getFavoriteDataFromStorage();
     if (this.houses.length === 0) {
       this.noResults = true;
+    }else{
+      this.numberHouses = this.houses.length;
     }
-    this.numberHouses = this.houses.length;
   }
 
   openPropertyPage(house){
-    this.userService.setCurrentProperty(Object.assign({}, house));
-    this.router.navigate(['/propertylisting']);
+    if (house.id === ""){
+      house.id = this.userService.savePropertyAndGetId(house);
+    }
+    this.router.navigate([`/propertylisting/${house.id}`]);
   }
 
   getMoreProperty(){
