@@ -13,7 +13,7 @@ export class PropertyGuard implements CanActivate {
     private router: Router) { }
 
   canActivate() {
-    let isAvalible = this.userService.currentPropperty;
+    let isAvalible = this.userService.getCurrentProperty();
     if(isAvalible) {
         return true;
     }else{

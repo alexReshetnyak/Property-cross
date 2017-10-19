@@ -16,7 +16,7 @@ export class PropertyListingComponent implements OnInit {
   }
   
   ngOnInit() {
-    this.house = this.userService.currentPropperty;
+    this.house = this.userService.getCurrentProperty();
     if (this.house.favorite) {
       this.favorite = this.house.favorite;
     }else{

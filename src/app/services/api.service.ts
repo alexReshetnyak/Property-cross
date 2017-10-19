@@ -34,7 +34,6 @@ export class ApiService {
   }
 
   toHouse(res, favoriteProperties): House {
-  //console.log(user);
     
     favoriteProperties.forEach(element => {
       if (element.title === res.title) {

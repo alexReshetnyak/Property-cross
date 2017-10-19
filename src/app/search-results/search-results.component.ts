@@ -92,7 +92,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   openPropertyPage(house){
-    this.userService.currentPropperty = Object.assign({}, house);
+    this.userService.setCurrentProperty(Object.assign({}, house));
     this.router.navigate(['/propertylisting']);
   }
 

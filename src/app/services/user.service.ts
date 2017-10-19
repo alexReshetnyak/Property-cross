@@ -4,8 +4,16 @@ import { House } from '../models/house';
 
 @Injectable()
 export class UserService {
-  currentPropperty:House;
+  currentProperty:House;
   constructor(){}
+
+  getCurrentProperty(){
+    return this.currentProperty;
+  }
+
+  setCurrentProperty(property){
+    this.currentProperty = property;
+  }
 
   saveHouseInStorage(house){
     let properties = this.getDataFromStorage('favoriteProperties');
