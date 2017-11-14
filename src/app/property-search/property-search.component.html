@@ -35,7 +35,7 @@
     <span>Recent Searches</span>
       <div *ngFor="let param of lastSearchParams">
           <div class="row">
-            <a [routerLink]="['/searchresults', {'text': param.searchText}]">
+            <a [routerLink]="['/searchresults', {'text': param.text}]">
             
                 <div class="col-xs-3 search-param-text">
                     {{param.text}}

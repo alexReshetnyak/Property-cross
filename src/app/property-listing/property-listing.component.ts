@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { House } from '../models/house';
-import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-property-listing',
@@ -10,28 +10,27 @@ import { ActivatedRoute, Router, ParamMap, Params } from '@angular/router';
 })
 export class PropertyListingComponent implements OnInit {
 
-  house: House;
-  
+  public house: House;
+
   constructor(public userService: UserService,
               private activatedRoute: ActivatedRoute,
               private router: Router
-              ){}
-  
-  ngOnInit() {
+              ) {}
+
+  public ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      let id = params['id'];
+      const id = params['id'];
       this.house = this.userService.getPropertyFromSrorage(id);
     });
   }
 
-  switchFavorite(){
-    if (!this.house.favorite){
+  public switchFavorite(): void {
+    if (!this.house.favorite) {
       this.house.favorite = true;
       this.userService.saveHouseInStorage(this.house);
-    }else{
+    } else {
       this.house.favorite = false;
       this.userService.saveHouseInStorage(this.house);
     }
   }
-
 }

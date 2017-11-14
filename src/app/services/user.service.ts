@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, JsonpModule, Jsonp } from '@angular/http';
 import { House } from '../models/house';
 
 @Injectable()
 export class UserService {
 
-  constructor(){}
+  constructor() {}
 
-  saveHouseInStorage(house){
+  public saveHouseInStorage(house): void {
     let properties = this.getDataFromStorage('properties');
-    let propertiesJson = "";
-    if(house.id === ""){
+    let propertiesJson = '';
+    if(house.id === '') {
       house.id = this.makeId();
     }
-    if (properties){
+    if (properties) {
       let newElement = true;
       for (let i = 0; i < properties.length; i++) {
         if (properties[i].id == house.id) {
@@ -21,45 +20,45 @@ export class UserService {
           newElement = false;
         }
       }
-      if(newElement){
+      if (newElement) {
         properties.unshift(house);
       }
-    }else{
+    } else {
       properties.push(house);
-    }   
+    }
     propertiesJson = JSON.stringify(properties);
-    localStorage.setItem("properties", propertiesJson);
+    localStorage.setItem('properties', propertiesJson);
   }
 
 
-  saveSearchResult( searchParamsObj, page ){
+  public saveSearchResult( searchParamsObj, page ): void {
     const maxCountSearchResunts = 10;
-    if (page === 1){
+    if (page === 1) {
       let properties = this.getDataFromStorage('lastSearchProperties');
-      let propertiesJson = "";
-      if (properties){
+      let propertiesJson = '';
+      if (properties) {
         if (properties.length > maxCountSearchResunts) {
           properties.length = maxCountSearchResunts;
         }
         properties.unshift(searchParamsObj);
-      }else{
+      } else {
         properties.push(searchParamsObj);
       }
       propertiesJson = JSON.stringify(properties);
-      localStorage.setItem("lastSearchProperties", propertiesJson);
+      localStorage.setItem('lastSearchProperties', propertiesJson);
     }
   }
 
-  savePropertyAndGetId(house){
+  public savePropertyAndGetId(house): string {
     this.saveHouseInStorage(house);
     return house.id;
   }
 
-  getPropertyFromSrorage(id){
-    let properties = this.getDataFromStorage('properties');
+  public getPropertyFromSrorage(id): House {
+    const properties = this.getDataFromStorage('properties');
     let property;
-    for (let i = 0; i < properties.length; i++){
-      if (properties[i].id === id){
+    for (let i = 0; i < properties.length; i++) {
+      if (properties[i].id === id) {
         property = properties[i];
         break;
       }
@@ -67,25 +66,25 @@ export class UserService {
     return property;
   }
 
-  getFavoriteDataFromStorage(){
+  public getFavoriteDataFromStorage(): House[] {
     let properties = this.getDataFromStorage('properties');
     return properties.filter(property => property.favorite);
   }
 
-  getDataFromStorage(key){
-    let houses =  localStorage.getItem(key);
-    if(houses){
+  public getDataFromStorage(key): any[] {
+    const houses =  localStorage.getItem(key);
+    if(houses) {
       return JSON.parse(houses);
-    }else{
+    } else {
       return [];
     }
   }
 
-  makeId(){
-    let dateNow = new Date();
-    let time = dateNow.getTime();
-    let random = Math.round(Math.random()*1000);
-    let id = `${time}${random}`;
+  public makeId(): string {
+    const dateNow = new Date();
+    const time = dateNow.getTime();
+    const random = Math.round(Math.random()*1000);
+    const id = `${time}${random}`;
     return id;
   }
 }

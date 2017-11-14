@@ -12,6 +12,8 @@ import { UserService } from './services/user.service';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { PropertyListingComponent } from './property-listing/property-listing.component';
 
+import { RecaptchaModule } from 'ng-recaptcha';
+
 
 @NgModule({
   declarations: [
@@ -26,9 +28,13 @@ import { PropertyListingComponent } from './property-listing/property-listing.co
     FormsModule,
     HttpModule,
     JsonpModule,
+    RecaptchaModule.forRoot(),
   ],
-  providers: [ApiService,
-              UserService],
+  providers: [
+              ApiService,
+              UserService,
+             ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule {}
